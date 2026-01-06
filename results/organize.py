@@ -3,10 +3,48 @@ import shutil
 import time
 from datetime import datetime
 
-def organizer():
+def get_hardware_info():
+    """Prompt user for hardware specifications."""
+    print("\n" + "="*60)
+    print("HARDWARE ANALYTICS SETUP")
+    print("="*60)
+    
+    hardware_name = input("Enter hardware name (e.g., 'workstation-30gb', 'server-gpu'): ").strip()
+    
+    if not hardware_name:
+        hardware_name = "unknown-hardware"
+    
+    # Sanitize hardware name for folder
+    hardware_name = hardware_name.replace(" ", "-").replace("/", "-").lower()
+    
+    print(f"\n✓ Hardware name set to: {hardware_name}")
+    print("="*60 + "\n")
+    
+    return hardware_name
+
+def organizer(hardware_dir):
     cur_dir = os.getcwd()
 
     files = [f for f in os.listdir(cur_dir) if os.path.isfile(f)]
+
+    # Engine names to recognize in filenames
+    engine_names = [
+        "milvus-default",
+        "milvus-m-16-ef-128",
+        "milvus-m-32-ef-128",
+        "milvus-m-32-ef-256",
+        "milvus-m-32-ef-512",
+        "milvus-m-64-ef-256",
+        "milvus-m-64-ef-512",
+        "milvus-m-100-ef-256",
+        "milvus-m-100-ef-512",
+        "weaviate-default",
+        "qdrant-default",
+        "elasticsearch-default",
+        "pgvector-default",
+        "redis-default",
+        "opensearch-default",
+    ]
 
     dataset_names = [
         "glove-25-angular",
@@ -63,23 +101,38 @@ def organizer():
             if ds_name in file_name:
                 found_files = True
 
-                # Determine grouping prefix (everything before the dataset name)
-                idx = file_name.find(ds_name)
-                prefix = file_name[:idx].rstrip('_-')
-
-                if prefix:
-                    parent_dir = os.path.join(cur_dir, prefix)
+                # Find dataset position
+                ds_idx = file_name.find(ds_name)
+                
+                # Extract engine name from the part before dataset
+                engine_name = None
+                part_before_ds = file_name[:ds_idx].rstrip('_-')
+                
+                for eng_name in sorted(engine_names, key=lambda x: -len(x)):
+                    if eng_name in part_before_ds:
+                        engine_name = eng_name
+                        break
+                
+                if not engine_name:
+                    # Fallback: treat whole prefix as variant
+                    variant = part_before_ds
+                    parent_dir = os.path.join(cur_dir, hardware_dir, variant)
                 else:
-                    parent_dir = cur_dir
+                    # Extract variant (everything before the engine name)
+                    eng_idx = part_before_ds.find(engine_name)
+                    variant = part_before_ds[:eng_idx].rstrip('_-')
+                    
+                    if variant:
+                        parent_dir = os.path.join(cur_dir, hardware_dir, engine_name, variant)
+                    else:
+                        parent_dir = os.path.join(cur_dir, hardware_dir, engine_name)
 
                 target_dir = os.path.join(parent_dir, ds_name)
 
                 try:
                     os.makedirs(target_dir, exist_ok=True)
-                    if parent_dir != cur_dir:
-                        print(f"Created folder: {os.path.relpath(parent_dir, cur_dir)}")
-                    else:
-                        print(f"Created folder: {ds_name}")
+                    rel_path = os.path.relpath(parent_dir, cur_dir)
+                    print(f"Created folder: {rel_path}")
 
                     src_path = os.path.join(cur_dir, file_name)
                     dst_path = os.path.join(target_dir, file_name)
@@ -95,11 +148,13 @@ def organizer():
         print(f"[{datetime.now().strftime('%H:%M:%S')}] No new files found. Waiting...")
 
 if __name__ == "__main__":
+    hardware_name = get_hardware_info()
     print("Dataset Organizer Service Started (Checking every 5 minutes)...")
+    print(f"Organizing results under: {hardware_name}/\n")
     try:
         while True:
-            organizer()
-            time.sleep(4)
+            organizer(hardware_name)
+            time.sleep(15)
     except KeyboardInterrupt:
         print("\nService stopped by user.")
 
