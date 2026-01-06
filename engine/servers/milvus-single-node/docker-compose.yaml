@@ -10,7 +10,7 @@ services:
       - ETCD_AUTO_COMPACTION_RETENTION=1000
       - ETCD_QUOTA_BACKEND_BYTES=4294967296
     volumes:
-    - ${DOCKER_VOLUME_DIRECTORY:-.}/volumes/etcd:/etcd
+       - ${DOCKER_VOLUME_DIRECTORY:-.}/volumes/etcd:/etcd
     logging:
       driver: "json-file"
       options:
@@ -58,7 +58,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 2g
+          memory: 6g
 
 networks:
   default:

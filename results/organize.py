@@ -149,7 +149,7 @@ def organizer(hardware_dir):
 
 if __name__ == "__main__":
     hardware_name = get_hardware_info()
-    print("Dataset Organizer Service Started (Checking every 5 minutes)...")
+    print("Dataset Organizer Service Started (Checking every 15 seconds)...")
     print(f"Organizing results under: {hardware_name}/\n")
     try:
         while True:
