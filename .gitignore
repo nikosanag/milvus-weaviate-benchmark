@@ -17,11 +17,13 @@ engine/servers/milvus-limit-ram/volumes/etcd/member/
 engine/servers/milvus-limit-ram/volumes/minio/.minio.sys/format.json
 engine/servers/milvus-limit-ram/volumes/minio/.minio.sys/format.json
 
-# Exclude everything in the datasets folder
-datasets/*
+
 
 # Allow only JSON files in the datasets folder
 !datasets/*.json
+
+# Allow RAM_RECOMMENDATIONS.txt in datasets/
+!datasets/RAM_RECOMMENDATIONS.txt
 
 # Ignore Milvus volume data
 engine/servers/milvus-limit-ram/volumes/
