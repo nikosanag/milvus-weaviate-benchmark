@@ -6,7 +6,7 @@
     "type": "h5",
     "path": "glove-25-angular/glove-25-angular.hdf5",
     "link": "http://ann-benchmarks.com/glove-25-angular.hdf5",
-    "comment": "SMALL DIM - baseline (1.2M vectors)"
+    "comment": "1.2M vectors, 25D, 121MB - FAST baseline"
   },
   {
     "name": "glove-100-angular",
@@ -15,24 +15,25 @@
     "type": "h5",
     "path": "glove-100-angular/glove-100-angular.hdf5",
     "link": "http://ann-benchmarks.com/glove-100-angular.hdf5",
-    "comment": "MEDIUM DIM - cosine (1.2M vectors)"
+    "comment": "1.2M vectors, 100D, 463MB - MEDIUM cosine"
   },
   {
-    "name": "random-100-euclidean",
-    "vector_size": 100,
+    "name": "sift-128-euclidean",
+    "vector_size": 128,
     "distance": "l2",
-    "type": "jsonl",
-    "path": "random-100/",
-    "comment": "MEDIUM DIM - L2 distance (different metric!)"
+    "type": "h5",
+    "path": "sift-128-euclidean/sift-128-euclidean.hdf5",
+    "link": "http://ann-benchmarks.com/sift-128-euclidean.hdf5",
+    "comment": "1M vectors, 128D, 501MB - L2/EUCLIDEAN distance"
   },
   {
-    "name": "laion-small-clip-no-filters-1",
-    "vector_size": 512,
-    "distance": "cosine",
-    "type": "tar",
-    "path": "laion-small-clip/laion-small-clip-no-filters-1",
-    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/laion-small-clip-no-filters-1.tgz",
-    "comment": "LARGE DIM - real CLIP embeddings, no filters"
+    "name": "gist-960-euclidean",
+    "vector_size": 960,
+    "distance": "l2",
+    "type": "h5",
+    "path": "gist-960-euclidean/gist-960-euclidean.hdf5",
+    "link": "http://ann-benchmarks.com/gist-960-euclidean.hdf5",
+    "comment": "1M vectors, 960D, 3.6GB - LARGE dim L2 (RAM intensive!)"
   },
   {
     "name": "dbpedia-openai-100K-1536-angular",
@@ -41,7 +42,7 @@
     "type": "tar",
     "path": "dbpedia-openai-100K-1536-angular/dbpedia_openai_100K",
     "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/dbpedia_openai_100K.tgz",
-    "comment": "VERY LARGE DIM - OpenAI embeddings, 100K (lighter)"
+    "comment": "100K vectors, 1536D - OpenAI embeddings (lighter)"
   },
   {
     "name": "dbpedia-openai-1M-1536-angular",
@@ -50,7 +51,7 @@
     "type": "tar",
     "path": "dbpedia-openai-1M-1536-angular/dbpedia_openai_1M",
     "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/dbpedia_openai_1M.tgz",
-    "comment": "VERY LARGE DIM - OpenAI embeddings, 1M (BIG DATASET)"
+    "comment": "1M vectors, 1536D - OpenAI embeddings (BIG, ~6GB RAM)"
   },
   {
     "name": "h-and-m-2048-angular-no-filters",
@@ -59,7 +60,7 @@
     "type": "tar",
     "path": "h-and-m-2048-angular-no-filters/hnm_no_filters",
     "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/hnm_no_filters.tgz",
-    "comment": "HUGE DIM - 2048D, no filters baseline"
+    "comment": "~105K vectors, 2048D - HUGE dim, no filters"
   },
   {
     "name": "h-and-m-2048-angular-filters",
@@ -94,7 +95,7 @@
       "garment_group_name": "keyword",
       "detail_desc": "text"
     },
-    "comment": "HUGE DIM - 2048D, WITH FILTERS (complex)"
+    "comment": "~105K vectors, 2048D - WITH 24 FILTERS (complex!)"
   },
   {
     "name": "random-match-keyword-100-angular-filters",
@@ -107,7 +108,7 @@
       "a": "keyword",
       "b": "keyword"
     },
-    "comment": "MEDIUM DIM - WITH keyword FILTERS"
+    "comment": "1M vectors, 100D - WITH keyword FILTERS"
   },
   {
     "name": "random-match-keyword-100-angular-no-filters",
@@ -116,6 +117,6 @@
     "type": "tar",
     "path": "random-match-keyword-100-angular/random_keywords_1m_no_filters",
     "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_keywords_1m_no_filters.tgz",
-    "comment": "MEDIUM DIM - no filters baseline for keyword comparison"
+    "comment": "1M vectors, 100D - no filters baseline"
   }
 ]
