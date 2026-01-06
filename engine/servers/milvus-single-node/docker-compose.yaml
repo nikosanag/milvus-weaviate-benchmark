@@ -9,8 +9,8 @@ services:
       - ETCD_AUTO_COMPACTION_MODE=revision
       - ETCD_AUTO_COMPACTION_RETENTION=1000
       - ETCD_QUOTA_BACKEND_BYTES=4294967296
-    volumes:
-       - ${DOCKER_VOLUME_DIRECTORY:-.}/volumes/etcd:/etcd
+    # volumes:
+    #    - ${DOCKER_VOLUME_DIRECTORY:-.}/volumes/etcd:/etcd
     logging:
       driver: "json-file"
       options:

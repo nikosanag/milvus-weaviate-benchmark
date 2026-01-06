@@ -12,8 +12,6 @@ services:
     ports:
       - "8090:8090"
       - "50051:50051"
-    volumes:
-      - ${DOCKER_VOLUME_DIRECTORY:-.}/volumes/weaviate:/var/lib/weaviate
     logging:
       driver: "json-file"
       options:
