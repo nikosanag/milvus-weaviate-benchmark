@@ -1,0 +1,169 @@
+[
+  {
+    "name": "dbpedia-openai-1M-1536-angular",
+    "vector_size": 1536,
+    "distance": "cosine",
+    "type": "tar",
+    "path": "dbpedia-openai-1M-1536-angular/dbpedia_openai_1M",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/dbpedia_openai_1M.tgz"
+  },
+  {
+    "name": "glove-25-angular",
+    "vector_size": 25,
+    "distance": "cosine",
+    "type": "h5",
+    "path": "glove-25-angular/glove-25-angular.hdf5",
+    "link": "http://ann-benchmarks.com/glove-25-angular.hdf5"
+  },
+  {
+    "name": "glove-100-angular",
+    "vector_size": 100,
+    "distance": "cosine",
+    "type": "h5",
+    "path": "glove-100-angular/glove-100-angular.hdf5",
+    "link": "http://ann-benchmarks.com/glove-100-angular.hdf5"
+  },
+  {
+    "name": "h-and-m-2048-angular-filters",
+    "vector_size": 2048,
+    "distance": "cosine",
+    "type": "tar",
+    "path": "h-and-m-2048-angular/hnm",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/hnm.tgz",
+    "schema": {
+      "product_code": "int",
+      "prod_name": "keyword",
+      "product_type_no": "int",
+      "product_type_name": "keyword",
+      "product_group_name": "keyword",
+      "graphical_appearance_no": "int",
+      "graphical_appearance_name": "keyword",
+      "colour_group_code": "int",
+      "colour_group_name": "keyword",
+      "perceived_colour_value_id": "int",
+      "perceived_colour_value_name": "keyword",
+      "perceived_colour_master_id": "int",
+      "perceived_colour_master_name": "keyword",
+      "department_no": "int",
+      "department_name": "keyword",
+      "index_code": "keyword",
+      "index_name": "keyword",
+      "index_group_no": "int",
+      "index_group_name": "keyword",
+      "section_no": "int",
+      "section_name": "keyword",
+      "garment_group_no": "int",
+      "garment_group_name": "keyword",
+      "detail_desc": "text"
+    }
+  },
+  {
+    "name": "h-and-m-2048-angular-no-filters",
+    "vector_size": 2048,
+    "distance": "cosine",
+    "type": "tar",
+    "path": "h-and-m-2048-angular-no-filters/hnm_no_filters",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/hnm_no_filters.tgz"
+  },
+  {
+    "name": "laion-small-clip",
+    "vector_size": 512,
+    "distance": "cosine",
+    "type": "tar",
+    "path": "laion-small-clip/laion-small-clip",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/laion-small-clip.tgz",
+    "schema": {
+      "similarity": "float"
+    }
+  },
+  {
+    "name": "dbpedia-openai-100K-1536-angular",
+    "vector_size": 1536,
+    "distance": "cosine",
+    "type": "tar",
+    "path": "dbpedia-openai-100K-1536-angular/dbpedia_openai_100K",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/dbpedia_openai_100K.tgz"
+  },
+  {
+    "name": "random-match-keyword-100-angular-filters",
+    "vector_size": 100,
+    "distance": "cosine",
+    "type": "tar",
+    "path": "random-match-keyword-100-angular/random_keywords_1m",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_keywords_1m.tgz",
+    "schema": {
+      "a": "keyword",
+      "b": "keyword"
+    }
+  },
+  {
+    "name": "random-match-keyword-100-angular-no-filters",
+    "vector_size": 100,
+    "distance": "cosine",
+    "type": "tar",
+    "path": "random-match-keyword-100-angular/random_keywords_1m_no_filters",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_keywords_1m_no_filters.tgz"
+  },
+  {
+    "name": "random-geo-radius-100-angular-no-filters",
+    "vector_size": 100,
+    "distance": "cosine",
+    "type": "tar",
+    "path": "random-geo-radius-100-angular/random_geo_1m_no_filters",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_geo_1m_no_filters.tgz"
+  },
+  {
+    "name": "random-match-int-100-angular-no-filters",
+    "vector_size": 100,
+    "distance": "cosine",
+    "type": "tar",
+    "path": "random-match-int-100-angular/random_ints_1m_no_filters",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_ints_1m_no_filters.tgz"
+  },
+  {
+    "name": "random-range-100-angular-no-filters",
+    "vector_size": 100,
+    "distance": "cosine",
+    "type": "tar",
+    "path": "random-range-100-angular/random_float_1m_no_filters",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_float_1m_no_filters.tgz"
+  },
+  {
+    "name": "random-100",
+    "vector_size": 100,
+    "distance": "cosine",
+    "type": "jsonl",
+    "path": "random-100/"
+  },
+  {
+    "name": "random-100-euclidean",
+    "vector_size": 100,
+    "distance": "l2",
+    "type": "jsonl",
+    "path": "random-100/"
+  },
+  {
+    "name": "laion-small-clip-no-filters-1",
+    "vector_size": 512,
+    "distance": "cosine",
+    "type": "tar",
+    "path": "laion-small-clip/laion-small-clip-no-filters-1",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/laion-small-clip-no-filters-1.tgz"
+  },
+  {
+    "name": "laion-small-clip-no-filters-2",
+    "vector_size": 512,
+    "distance": "cosine",
+    "type": "tar",
+    "path": "laion-small-clip/laion-small-clip-no-filters-2",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/laion-small-clip-no-filters-2.tgz"
+  },
+  {
+    "name": "laion-1m-no-filters",
+    "vector_size": 512,
+    "distance": "cosine",
+    "type": "tar",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/laion-1m-no-filters.tgz",
+    "path": "laion-1m-no-filters/laion_1m_no_filters"
+  }
+]

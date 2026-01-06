@@ -15,8 +15,8 @@ from engine.clients.weaviate.parser import WeaviateConditionParser
 class WeaviateSearcher(BaseSearcher):
     search_params = {}
     parser = WeaviateConditionParser()
-    collection: Collection
-    client: WeaviateClient
+    collection: Collection = None
+    client: WeaviateClient = None
 
     @classmethod
     def init_client(cls, host, distance, connection_params: dict, search_params: dict):

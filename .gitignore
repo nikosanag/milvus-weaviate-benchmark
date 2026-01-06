@@ -25,3 +25,6 @@ datasets/*
 
 # Ignore Milvus volume data
 engine/servers/milvus-limit-ram/volumes/
+
+# Ignore Weaviate volume data
+engine/servers/weaviate-single-node/volumes/

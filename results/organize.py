@@ -99,7 +99,7 @@ if __name__ == "__main__":
     try:
         while True:
             organizer()
-            time.sleep(300)
+            time.sleep(4)
     except KeyboardInterrupt:
         print("\nService stopped by user.")
 

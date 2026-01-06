@@ -3,6 +3,7 @@ from typing import List
 
 from pymilvus import (
     Collection,
+    MilvusClient,
     MilvusException,
     connections,
     wait_for_index_building_complete,
@@ -25,6 +26,8 @@ class MilvusUploader(BaseUploader):
     upload_params = {}
     collection: Collection = None
     distance: str = None
+    _host: str = None
+    _port: str = None
 
     @classmethod
     def get_mp_start_method(cls):
@@ -32,10 +35,12 @@ class MilvusUploader(BaseUploader):
 
     @classmethod
     def init_client(cls, host, distance, connection_params, upload_params):
+        cls._host = host
+        cls._port = str(connection_params.get("port", MILVUS_DEFAULT_PORT))
         cls.client = connections.connect(
             alias=MILVUS_DEFAULT_ALIAS,
             host=host,
-            port=str(connection_params.get("port", MILVUS_DEFAULT_PORT)),
+            port=cls._port,
             **connection_params
         )
         cls.collection = Collection(MILVUS_COLLECTION_NAME, using=MILVUS_DEFAULT_ALIAS)
@@ -95,67 +100,53 @@ class MilvusUploader(BaseUploader):
 
         cls.collection.load()
         post = {}
-        # add basic stats
+
+        # Get collection stats using MilvusClient (more reliable for storage info)
         try:
-            post["num_entities"] = cls.collection.num_entities
-        except Exception:
-            post["num_entities"] = None
-
-        # try to get segment / storage info via utility.get_query_segment_info
-        try:
-            segments = utility.get_query_segment_info(
-                collection_name=cls.collection.name, using=MILVUS_DEFAULT_ALIAS
-            )
-            # segments may be protobuf-like objects; try several safe access patterns
-            total_bytes = 0
-            for seg in segments:
-                # prefer .to_dict() or .dict(), else use getattr safely
-                segd = None
-                try:
-                    if hasattr(seg, "to_dict"):
-                        segd = seg.to_dict()
-                    elif hasattr(seg, "dict"):
-                        segd = seg.dict()
-                except Exception:
-                    segd = None
-
-                if segd is None:
-                    # try to access known attributes without triggering presence errors
-                    segd = {}
-                    for key in ("mem_size", "disk_size", "data_size", "memory_size"):
-                        try:
-                            val = getattr(seg, key, None)
-                        except Exception:
-                            val = None
-                        if isinstance(val, (int, float)):
-                            segd[key] = int(val)
-
-                for key in ("mem_size", "disk_size", "data_size", "memory_size"):
-                    val = None
-                    if isinstance(segd, dict) and key in segd:
-                        val = segd.get(key)
-                    else:
-                        try:
-                            val = getattr(seg, key, None)
-                        except Exception:
-                            val = None
-
-                    if isinstance(val, (int, float)):
-                        total_bytes += int(val)
-                        break
-
-            if total_bytes > 0:
-                post["collection_storage_bytes"] = total_bytes
-            else:
-                post["collection_storage_bytes"] = None
+            milvus_client = MilvusClient(uri=f"http://{cls._host}:{cls._port}")
+            stats = milvus_client.get_collection_stats(MILVUS_COLLECTION_NAME)
+            post["collection_stats"] = stats
+            # row_count is the main stat returned
+            if "row_count" in stats:
+                post["num_entities"] = stats["row_count"]
+            milvus_client.close()
         except Exception as e:
-            # don't fail the whole upload if we can't get storage info
-            post["collection_storage_error"] = str(e)
+            post["collection_stats_error"] = str(e)
+            # Fallback to collection.num_entities
+            try:
+                post["num_entities"] = cls.collection.num_entities
+            except Exception:
+                post["num_entities"] = None
 
-        # include index descriptions
+        # Get collection description for additional info
+        try:
+            desc = cls.collection.describe()
+            if desc:
+                post["collection_description"] = desc
+        except Exception:
+            pass
+
+        # Include index descriptions
         try:
             post["indexes"] = [idx.to_dict() for idx in cls.collection.indexes]
         except Exception:
             post["indexes"] = None
 
+        # Get vector dimension from schema for storage estimation
+        try:
+            vector_dim = None
+            for field in cls.collection.schema.fields:
+                if field.name == "vector":
+                    vector_dim = field.params.get("dim")
+                    break
+            if vector_dim and post.get("num_entities"):
+                # Estimate: num_vectors * dim * 4 bytes (float32) for raw vectors
+                # HNSW adds ~1.5-2x overhead typically
+                raw_vector_bytes = post["num_entities"] * vector_dim * 4
+                post["estimated_raw_vector_bytes"] = raw_vector_bytes
+                post["vector_dimension"] = vector_dim
+        except Exception:
+            pass
+
+        return post
         return post

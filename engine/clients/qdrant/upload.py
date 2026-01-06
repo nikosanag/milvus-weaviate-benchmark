@@ -73,20 +73,54 @@ class QdrantUploader(BaseUploader):
             )
 
         cls.wait_collection_green()
-        # try to include collection info (may contain size/points stats)
+
+        post = {}
+
+        # Get collection info with storage stats
         try:
             coll_info = cls.client.get_collection(collection_name=QDRANT_COLLECTION_NAME)
+
+            # Extract key metrics explicitly
+            post["num_entities"] = coll_info.points_count
+            post["vectors_count"] = coll_info.vectors_count
+            post["indexed_vectors_count"] = coll_info.indexed_vectors_count
+            post["status"] = str(coll_info.status)
+            post["segments_count"] = coll_info.segments_count
+
+            # Get vector dimension from config
             try:
-                # pydantic model -> dict
-                info = coll_info.dict()
+                if coll_info.config and coll_info.config.params:
+                    vectors_config = coll_info.config.params.vectors
+                    if hasattr(vectors_config, "size"):
+                        post["vector_dimension"] = vectors_config.size
+                    elif isinstance(vectors_config, dict):
+                        # Named vectors case
+                        for name, cfg in vectors_config.items():
+                            if hasattr(cfg, "size"):
+                                post["vector_dimension"] = cfg.size
+                                break
+            except Exception:
+                pass
+
+            # Estimate raw storage if we have dimension and count
+            if post.get("num_entities") and post.get("vector_dimension"):
+                raw_vector_bytes = post["num_entities"] * post["vector_dimension"] * 4
+                post["estimated_raw_vector_bytes"] = raw_vector_bytes
+
+            # Include full collection info as dict for reference
+            try:
+                info = coll_info.dict() if hasattr(coll_info, "dict") else coll_info.model_dump()
+                post["collection_info"] = info
             except Exception:
                 try:
-                    info = coll_info.to_dict()
+                    post["collection_info"] = str(coll_info)
                 except Exception:
-                    info = coll_info
-            return {"collection_info": info}
+                    pass
+
         except Exception as e:
-            return {"collection_info_error": str(e)}
+            post["collection_info_error"] = str(e)
+
+        return post
 
     @classmethod
     def wait_collection_green(cls):

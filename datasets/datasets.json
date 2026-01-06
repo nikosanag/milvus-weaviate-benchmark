@@ -1,19 +1,12 @@
 [
   {
-    "name": "dbpedia-openai-1M-1536-angular",
-    "vector_size": 1536,
-    "distance": "cosine",
-    "type": "tar",
-    "path": "dbpedia-openai-1M-1536-angular/dbpedia_openai_1M",
-    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/dbpedia_openai_1M.tgz"
-  },
-  {
     "name": "glove-25-angular",
     "vector_size": 25,
     "distance": "cosine",
     "type": "h5",
     "path": "glove-25-angular/glove-25-angular.hdf5",
-    "link": "http://ann-benchmarks.com/glove-25-angular.hdf5"
+    "link": "http://ann-benchmarks.com/glove-25-angular.hdf5",
+    "comment": "SMALL DIM - baseline (1.2M vectors)"
   },
   {
     "name": "glove-100-angular",
@@ -21,7 +14,52 @@
     "distance": "cosine",
     "type": "h5",
     "path": "glove-100-angular/glove-100-angular.hdf5",
-    "link": "http://ann-benchmarks.com/glove-100-angular.hdf5"
+    "link": "http://ann-benchmarks.com/glove-100-angular.hdf5",
+    "comment": "MEDIUM DIM - cosine (1.2M vectors)"
+  },
+  {
+    "name": "random-100-euclidean",
+    "vector_size": 100,
+    "distance": "l2",
+    "type": "jsonl",
+    "path": "random-100/",
+    "comment": "MEDIUM DIM - L2 distance (different metric!)"
+  },
+  {
+    "name": "laion-small-clip-no-filters-1",
+    "vector_size": 512,
+    "distance": "cosine",
+    "type": "tar",
+    "path": "laion-small-clip/laion-small-clip-no-filters-1",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/laion-small-clip-no-filters-1.tgz",
+    "comment": "LARGE DIM - real CLIP embeddings, no filters"
+  },
+  {
+    "name": "dbpedia-openai-100K-1536-angular",
+    "vector_size": 1536,
+    "distance": "cosine",
+    "type": "tar",
+    "path": "dbpedia-openai-100K-1536-angular/dbpedia_openai_100K",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/dbpedia_openai_100K.tgz",
+    "comment": "VERY LARGE DIM - OpenAI embeddings, 100K (lighter)"
+  },
+  {
+    "name": "dbpedia-openai-1M-1536-angular",
+    "vector_size": 1536,
+    "distance": "cosine",
+    "type": "tar",
+    "path": "dbpedia-openai-1M-1536-angular/dbpedia_openai_1M",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/dbpedia_openai_1M.tgz",
+    "comment": "VERY LARGE DIM - OpenAI embeddings, 1M (BIG DATASET)"
+  },
+  {
+    "name": "h-and-m-2048-angular-no-filters",
+    "vector_size": 2048,
+    "distance": "cosine",
+    "type": "tar",
+    "path": "h-and-m-2048-angular-no-filters/hnm_no_filters",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/hnm_no_filters.tgz",
+    "comment": "HUGE DIM - 2048D, no filters baseline"
   },
   {
     "name": "h-and-m-2048-angular-filters",
@@ -55,34 +93,8 @@
       "garment_group_no": "int",
       "garment_group_name": "keyword",
       "detail_desc": "text"
-    }
-  },
-  {
-    "name": "h-and-m-2048-angular-no-filters",
-    "vector_size": 2048,
-    "distance": "cosine",
-    "type": "tar",
-    "path": "h-and-m-2048-angular-no-filters/hnm_no_filters",
-    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/hnm_no_filters.tgz"
-  },
-  {
-    "name": "laion-small-clip",
-    "vector_size": 512,
-    "distance": "cosine",
-    "type": "tar",
-    "path": "laion-small-clip/laion-small-clip",
-    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/laion-small-clip.tgz",
-    "schema": {
-      "similarity": "float"
-    }
-  },
-  {
-    "name": "dbpedia-openai-100K-1536-angular",
-    "vector_size": 1536,
-    "distance": "cosine",
-    "type": "tar",
-    "path": "dbpedia-openai-100K-1536-angular/dbpedia_openai_100K",
-    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/dbpedia_openai_100K.tgz"
+    },
+    "comment": "HUGE DIM - 2048D, WITH FILTERS (complex)"
   },
   {
     "name": "random-match-keyword-100-angular-filters",
@@ -94,7 +106,8 @@
     "schema": {
       "a": "keyword",
       "b": "keyword"
-    }
+    },
+    "comment": "MEDIUM DIM - WITH keyword FILTERS"
   },
   {
     "name": "random-match-keyword-100-angular-no-filters",
@@ -102,68 +115,7 @@
     "distance": "cosine",
     "type": "tar",
     "path": "random-match-keyword-100-angular/random_keywords_1m_no_filters",
-    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_keywords_1m_no_filters.tgz"
-  },
-  {
-    "name": "random-geo-radius-100-angular-no-filters",
-    "vector_size": 100,
-    "distance": "cosine",
-    "type": "tar",
-    "path": "random-geo-radius-100-angular/random_geo_1m_no_filters",
-    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_geo_1m_no_filters.tgz"
-  },
-  {
-    "name": "random-match-int-100-angular-no-filters",
-    "vector_size": 100,
-    "distance": "cosine",
-    "type": "tar",
-    "path": "random-match-int-100-angular/random_ints_1m_no_filters",
-    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_ints_1m_no_filters.tgz"
-  },
-  {
-    "name": "random-range-100-angular-no-filters",
-    "vector_size": 100,
-    "distance": "cosine",
-    "type": "tar",
-    "path": "random-range-100-angular/random_float_1m_no_filters",
-    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_float_1m_no_filters.tgz"
-  },
-  {
-    "name": "random-100",
-    "vector_size": 100,
-    "distance": "cosine",
-    "type": "jsonl",
-    "path": "random-100/"
-  },
-  {
-    "name": "random-100-euclidean",
-    "vector_size": 100,
-    "distance": "l2",
-    "type": "jsonl",
-    "path": "random-100/"
-  },
-  {
-    "name": "laion-small-clip-no-filters-1",
-    "vector_size": 512,
-    "distance": "cosine",
-    "type": "tar",
-    "path": "laion-small-clip/laion-small-clip-no-filters-1",
-    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/laion-small-clip-no-filters-1.tgz"
-  },
-  {
-    "name": "laion-small-clip-no-filters-2",
-    "vector_size": 512,
-    "distance": "cosine",
-    "type": "tar",
-    "path": "laion-small-clip/laion-small-clip-no-filters-2",
-    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/laion-small-clip-no-filters-2.tgz"
-  },
-  {
-    "name": "laion-1m-no-filters",
-    "vector_size": 512,
-    "distance": "cosine",
-    "type": "tar",
-    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/laion-1m-no-filters.tgz",
-    "path": "laion-1m-no-filters/laion_1m_no_filters"
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_keywords_1m_no_filters.tgz",
+    "comment": "MEDIUM DIM - no filters baseline for keyword comparison"
   }
 ]
