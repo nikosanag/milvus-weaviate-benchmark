@@ -73,7 +73,20 @@ class QdrantUploader(BaseUploader):
             )
 
         cls.wait_collection_green()
-        return {}
+        # try to include collection info (may contain size/points stats)
+        try:
+            coll_info = cls.client.get_collection(collection_name=QDRANT_COLLECTION_NAME)
+            try:
+                # pydantic model -> dict
+                info = coll_info.dict()
+            except Exception:
+                try:
+                    info = coll_info.to_dict()
+                except Exception:
+                    info = coll_info
+            return {"collection_info": info}
+        except Exception as e:
+            return {"collection_info_error": str(e)}
 
     @classmethod
     def wait_collection_green(cls):

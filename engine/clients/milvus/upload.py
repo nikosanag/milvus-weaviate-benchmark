@@ -7,6 +7,7 @@ from pymilvus import (
     connections,
     wait_for_index_building_complete,
 )
+from pymilvus.orm import utility
 
 from dataset_reader.base_reader import Record
 from engine.base_client.upload import BaseUploader
@@ -93,4 +94,68 @@ class MilvusUploader(BaseUploader):
             )
 
         cls.collection.load()
-        return {}
+        post = {}
+        # add basic stats
+        try:
+            post["num_entities"] = cls.collection.num_entities
+        except Exception:
+            post["num_entities"] = None
+
+        # try to get segment / storage info via utility.get_query_segment_info
+        try:
+            segments = utility.get_query_segment_info(
+                collection_name=cls.collection.name, using=MILVUS_DEFAULT_ALIAS
+            )
+            # segments may be protobuf-like objects; try several safe access patterns
+            total_bytes = 0
+            for seg in segments:
+                # prefer .to_dict() or .dict(), else use getattr safely
+                segd = None
+                try:
+                    if hasattr(seg, "to_dict"):
+                        segd = seg.to_dict()
+                    elif hasattr(seg, "dict"):
+                        segd = seg.dict()
+                except Exception:
+                    segd = None
+
+                if segd is None:
+                    # try to access known attributes without triggering presence errors
+                    segd = {}
+                    for key in ("mem_size", "disk_size", "data_size", "memory_size"):
+                        try:
+                            val = getattr(seg, key, None)
+                        except Exception:
+                            val = None
+                        if isinstance(val, (int, float)):
+                            segd[key] = int(val)
+
+                for key in ("mem_size", "disk_size", "data_size", "memory_size"):
+                    val = None
+                    if isinstance(segd, dict) and key in segd:
+                        val = segd.get(key)
+                    else:
+                        try:
+                            val = getattr(seg, key, None)
+                        except Exception:
+                            val = None
+
+                    if isinstance(val, (int, float)):
+                        total_bytes += int(val)
+                        break
+
+            if total_bytes > 0:
+                post["collection_storage_bytes"] = total_bytes
+            else:
+                post["collection_storage_bytes"] = None
+        except Exception as e:
+            # don't fail the whole upload if we can't get storage info
+            post["collection_storage_error"] = str(e)
+
+        # include index descriptions
+        try:
+            post["indexes"] = [idx.to_dict() for idx in cls.collection.indexes]
+        except Exception:
+            post["indexes"] = None
+
+        return post
