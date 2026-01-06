@@ -121,12 +121,12 @@
   }
   ,
   {
-    "name": "arxiv-titles-384-angular",
+    "name": "arxiv-titles-384-angular-no-filters",
     "vector_size": 384,
     "distance": "cosine",
     "type": "tar",
     "path": "arxiv-titles-384-angular/arxiv-titles-384-angular",
     "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/arxiv-titles-384-angular.tgz",
-    "comment": "~1M vectors, 384D - ArXiv titles embeddings (textual)"
+    "comment": "~1M vectors, 384D - ArXiv titles embeddings (no filters)"
   }
 ]
