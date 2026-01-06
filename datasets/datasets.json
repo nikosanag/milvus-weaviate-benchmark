@@ -1,145 +1,133 @@
-[
-  {
-    "name": "glove-25-angular",
-    "vector_size": 25,
-    "distance": "cosine",
-    "type": "h5",
-    "path": "glove-25-angular/glove-25-angular.hdf5",
-    "link": "http://ann-benchmarks.com/glove-25-angular.hdf5",
-    "comment": "1.2M vectors, 25D, 121MB - FAST baseline"
-  },
-  {
-    "name": "glove-100-angular",
-    "vector_size": 100,
-    "distance": "cosine",
-    "type": "h5",
-    "path": "glove-100-angular/glove-100-angular.hdf5",
-    "link": "http://ann-benchmarks.com/glove-100-angular.hdf5",
-    "comment": "1.2M vectors, 100D, 463MB - MEDIUM cosine"
-  },
-  {
-    "name": "sift-128-euclidean",
-    "vector_size": 128,
-    "distance": "l2",
-    "type": "h5",
-    "path": "sift-128-euclidean/sift-128-euclidean.hdf5",
-    "link": "http://ann-benchmarks.com/sift-128-euclidean.hdf5",
-    "comment": "1M vectors, 128D, 501MB - L2/EUCLIDEAN distance"
-  },
-  {
-    "name": "gist-960-euclidean",
-    "vector_size": 960,
-    "distance": "l2",
-    "type": "h5",
-    "path": "gist-960-euclidean/gist-960-euclidean.hdf5",
-    "link": "http://ann-benchmarks.com/gist-960-euclidean.hdf5",
-    "comment": "1M vectors, 960D, 3.6GB - LARGE dim L2 (RAM intensive!)"
-  },
-  {
-    "name": "dbpedia-openai-100K-1536-angular",
-    "vector_size": 1536,
-    "distance": "cosine",
-    "type": "tar",
-    "path": "dbpedia-openai-100K-1536-angular/dbpedia_openai_100K",
-    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/dbpedia_openai_100K.tgz",
-    "comment": "100K vectors, 1536D - OpenAI embeddings (lighter)"
-  },
-  {
-    "name": "dbpedia-openai-1M-1536-angular",
-    "vector_size": 1536,
-    "distance": "cosine",
-    "type": "tar",
-    "path": "dbpedia-openai-1M-1536-angular/dbpedia_openai_1M",
-    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/dbpedia_openai_1M.tgz",
-    "comment": "1M vectors, 1536D - OpenAI embeddings (BIG, ~6GB RAM)"
-  },
-  {
-    "name": "h-and-m-2048-angular-no-filters",
-    "vector_size": 2048,
-    "distance": "cosine",
-    "type": "tar",
-    "path": "h-and-m-2048-angular-no-filters/hnm_no_filters",
-    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/hnm_no_filters.tgz",
-    "comment": "~105K vectors, 2048D - HUGE dim, no filters"
-  },
-  {
-    "name": "h-and-m-2048-angular-filters",
-    "vector_size": 2048,
-    "distance": "cosine",
-    "type": "tar",
-    "path": "h-and-m-2048-angular/hnm",
-    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/hnm.tgz",
-    "schema": {
-      "product_code": "int",
-      "prod_name": "keyword",
-      "product_type_no": "int",
-      "product_type_name": "keyword",
-      "product_group_name": "keyword",
-      "graphical_appearance_no": "int",
-      "graphical_appearance_name": "keyword",
-      "colour_group_code": "int",
-      "colour_group_name": "keyword",
-      "perceived_colour_value_id": "int",
-      "perceived_colour_value_name": "keyword",
-      "perceived_colour_master_id": "int",
-      "perceived_colour_master_name": "keyword",
-      "department_no": "int",
-      "department_name": "keyword",
-      "index_code": "keyword",
-      "index_name": "keyword",
-      "index_group_no": "int",
-      "index_group_name": "keyword",
-      "section_no": "int",
-      "section_name": "keyword",
-      "garment_group_no": "int",
-      "garment_group_name": "keyword",
-      "detail_desc": "text"
-    },
-    "comment": "~105K vectors, 2048D - WITH 24 FILTERS (complex!)"
-  },
-  {
-    "name": "random-match-keyword-100-angular-filters",
-    "vector_size": 100,
-    "distance": "cosine",
-    "type": "tar",
-    "path": "random-match-keyword-100-angular/random_keywords_1m",
-    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_keywords_1m.tgz",
-    "schema": {
-      "a": "keyword",
-      "b": "keyword"
-    },
-    "comment": "1M vectors, 100D - WITH keyword FILTERS"
-  },
-  {
-    "name": "random-match-keyword-100-angular-no-filters",
-    "vector_size": 100,
-    "distance": "cosine",
-    "type": "tar",
-    "path": "random-match-keyword-100-angular/random_keywords_1m_no_filters",
-    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_keywords_1m_no_filters.tgz",
-    "comment": "1M vectors, 100D - no filters baseline"
-  }
-  ,
-  {
-    "name": "arxiv-titles-384-angular-no-filters",
-    "vector_size": 384,
-    "distance": "cosine",
-    "type": "tar",
-    "path": "arxiv-titles-384-angular/arxiv_titles_no_filters",
-    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/arxiv_titles_no_filters.tgz",
-    "comment": "~2.2M vectors, 384D - ArXiv titles (no filters)"
-  },
-  {
-    "name": "arxiv-titles-384-angular-filters",
-    "vector_size": 384,
-    "distance": "cosine",
-    "type": "tar",
-    "path": "arxiv-titles-384-angular/arxiv_titles",
-    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/arxiv_titles.tgz",
-    "schema": {
-      "categories": "keyword",
-      "update_date": "keyword"
-    },
-    "comment": "~2.2M vectors, 384D - ArXiv titles WITH FILTERS"
-  }
-]
+    [
+      {
+        "name": "glove-25-angular",
+        "vector_size": 25,
+        "distance": "cosine",
+        "type": "h5",
+        "path": "glove-25-angular/glove-25-angular.hdf5",
+        "link": "http://ann-benchmarks.com/glove-25-angular.hdf5"
+      },
+      {
+        "name": "glove-100-angular",
+        "vector_size": 100,
+        "distance": "cosine",
+        "type": "h5",
+        "path": "glove-100-angular/glove-100-angular.hdf5",
+        "link": "http://ann-benchmarks.com/glove-100-angular.hdf5"
+      },
+      {
+        "name": "sift-128-euclidean",
+        "vector_size": 128,
+        "distance": "l2",
+        "type": "h5",
+        "path": "sift-128-euclidean/sift-128-euclidean.hdf5",
+        "link": "http://ann-benchmarks.com/sift-128-euclidean.hdf5"
+      },
+      {
+        "name": "gist-960-euclidean",
+        "vector_size": 960,
+        "distance": "l2",
+        "type": "h5",
+        "path": "gist-960-euclidean/gist-960-euclidean.hdf5",
+        "link": "http://ann-benchmarks.com/gist-960-euclidean.hdf5"
+      },
+      {
+        "name": "dbpedia-openai-100K-1536-angular",
+        "vector_size": 1536,
+        "distance": "cosine",
+        "type": "tar",
+        "path": "dbpedia-openai-100K-1536-angular/dbpedia_openai_100K",
+        "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/dbpedia_openai_100K.tgz"
+      },
+      {
+        "name": "dbpedia-openai-1M-1536-angular",
+        "vector_size": 1536,
+        "distance": "cosine",
+        "type": "tar",
+        "path": "dbpedia-openai-1M-1536-angular/dbpedia_openai_1M",
+        "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/dbpedia_openai_1M.tgz"
+      },
+      {
+        "name": "h-and-m-2048-angular-no-filters",
+        "vector_size": 2048,
+        "distance": "cosine",
+        "type": "tar",
+        "path": "h-and-m-2048-angular-no-filters/hnm_no_filters",
+        "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/hnm_no_filters.tgz"
+      },
+      {
+        "name": "h-and-m-2048-angular-filters",
+        "vector_size": 2048,
+        "distance": "cosine",
+        "type": "tar",
+        "path": "h-and-m-2048-angular/hnm",
+        "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/hnm.tgz",
+        "schema": {
+          "product_code": "int",
+          "prod_name": "keyword",
+          "product_type_no": "int",
+          "product_type_name": "keyword",
+          "product_group_name": "keyword",
+          "graphical_appearance_no": "int",
+          "graphical_appearance_name": "keyword",
+          "colour_group_code": "int",
+          "colour_group_name": "keyword",
+          "perceived_colour_value_id": "int",
+          "perceived_colour_value_name": "keyword",
+          "perceived_colour_master_id": "int",
+          "perceived_colour_master_name": "keyword",
+          "department_no": "int",
+          "department_name": "keyword",
+          "index_code": "keyword",
+          "index_name": "keyword",
+          "index_group_no": "int",
+          "index_group_name": "keyword",
+          "section_no": "int",
+          "section_name": "keyword",
+          "garment_group_no": "int",
+          "garment_group_name": "keyword",
+          "detail_desc": "text"
+        }
+      },
+      {
+        "name": "random-match-keyword-100-angular-filters",
+        "vector_size": 100,
+        "distance": "cosine",
+        "type": "tar",
+        "path": "random-match-keyword-100-angular/random_keywords_1m",
+        "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_keywords_1m.tgz",
+        "schema": {
+          "a": "keyword",
+          "b": "keyword"
+        }
+      },
+      {
+        "name": "random-match-keyword-100-angular-no-filters",
+        "vector_size": 100,
+        "distance": "cosine",
+        "type": "tar",
+        "path": "random-match-keyword-100-angular/random_keywords_1m_no_filters",
+        "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_keywords_1m_no_filters.tgz"
+      },
+      {
+        "name": "arxiv-titles-384-angular-no-filters",
+        "vector_size": 384,
+        "distance": "cosine",
+        "type": "tar",
+        "path": "arxiv-titles-384-angular/arxiv_no_filters",
+        "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/arxiv_titles_no_filters.tgz"
+      },
+      {
+        "name": "arxiv-titles-384-angular-filters",
+        "vector_size": 384,
+        "distance": "cosine",
+        "type": "tar",
+        "path": "arxiv-titles-384-angular/arxiv",
+        "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/arxiv_titles.tgz",
+        "schema": {
+          "categories": "keyword",
+          "update_date": "keyword"
+        }
+      }
+    ]
+      
