@@ -119,4 +119,14 @@
     "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_keywords_1m_no_filters.tgz",
     "comment": "1M vectors, 100D - no filters baseline"
   }
+  ,
+  {
+    "name": "arxiv-titles-384-angular",
+    "vector_size": 384,
+    "distance": "cosine",
+    "type": "tar",
+    "path": "arxiv-titles-384-angular/arxiv-titles-384-angular",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/arxiv-titles-384-angular.tgz",
+    "comment": "~1M vectors, 384D - ArXiv titles embeddings (textual)"
+  }
 ]
