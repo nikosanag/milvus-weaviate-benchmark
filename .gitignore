@@ -4,7 +4,24 @@ __pycache__
 *.pyc
 NOTES.md
 
+# Ignore everything in the results folder
 results/*
+
+# Except for organize.py
+!results/organize.py
+
 tools/custom/data.json
 
 ansible/playbooks/inventory.ini
+engine/servers/milvus-limit-ram/volumes/etcd/member/
+engine/servers/milvus-limit-ram/volumes/minio/.minio.sys/format.json
+engine/servers/milvus-limit-ram/volumes/minio/.minio.sys/format.json
+
+# Exclude everything in the datasets folder
+datasets/*
+
+# Allow only JSON files in the datasets folder
+!datasets/*.json
+
+# Ignore Milvus volume data
+engine/servers/milvus-limit-ram/volumes/

@@ -1,0 +1,12 @@
+{
+    "name": "random-geo-radius-100-angular-filters",
+    "vector_size": 100,
+    "distance": "cosine",
+    "type": "tar",
+    "path": "random-geo-radius-100-angular/random_geo_1m",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_geo_1m.tgz",
+    "schema": {
+      "a": "geo",
+      "b": "geo"
+    }
+  },

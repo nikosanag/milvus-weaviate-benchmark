@@ -44,7 +44,7 @@ class WeaviateSearcher(BaseSearcher):
 
     def setup_search(self):
         self.collection.config.update(
-            vector_index_config=Reconfigure.VectorIndex.hnsw(
+            vectorizer_config=Reconfigure.VectorIndex.hnsw(
                 ef=self.search_params["config"]["ef"]
             )
         )

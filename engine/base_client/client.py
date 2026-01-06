@@ -1,7 +1,12 @@
 import json
 import os
 from datetime import datetime
-from typing import List, Optional
+from typing import Dict, List, Optional
+
+try:
+    import resource
+except ImportError:  # pragma: no cover - resource is not available on all platforms
+    resource = None
 
 from benchmark import ROOT_DIR
 from benchmark.dataset import Dataset
@@ -33,6 +38,44 @@ class BaseClient:
     @property
     def sparse_vector_support(self):
         return self.configurator.SPARSE_VECTOR_SUPPORT
+
+    @staticmethod
+    def _snapshot_system_metrics() -> Dict[str, Dict[str, float]]:
+        """Collect a lightweight snapshot of host and client resource usage.
+
+        This is intentionally simple and dependency-free so that every
+        benchmark run records at least some system context (CPU/load/memory)
+        alongside latency/throughput numbers.
+        """
+
+        metrics: Dict[str, Dict[str, float]] = {}
+
+        # Host load averages (Unix only).
+        try:
+            load1, load5, load15 = os.getloadavg()  # type: ignore[attr-defined]
+            metrics["loadavg"] = {"1m": load1, "5m": load5, "15m": load15}
+        except (AttributeError, OSError):
+            # Not available on this platform; ignore.
+            pass
+
+        # Per-process CPU time and RSS (Unix-only via resource module).
+        try:
+            if resource is not None:
+                usage = resource.getrusage(resource.RUSAGE_SELF)
+                metrics["cpu_time"] = {
+                    "user_s": float(usage.ru_utime),
+                    "system_s": float(usage.ru_stime),
+                }
+                metrics["memory"] = {
+                    # ru_maxrss is kilobytes on Linux, bytes on some BSDs;
+                    # we store it as-is and document the unit in analysis.
+                    "max_rss": float(usage.ru_maxrss),
+                }
+        except Exception:
+            # Best-effort only; do not break benchmarks on metrics failure.
+            pass
+
+        return metrics
 
     def save_search_results(
         self, dataset_name: str, results: dict, search_id: int, search_params: dict
@@ -107,9 +150,16 @@ class BaseClient:
                 self.configurator.configure(dataset)
 
             print("Experiment stage: Upload")
+            upload_metrics_before = self._snapshot_system_metrics()
             upload_stats = self.uploader.upload(
                 distance=dataset.config.distance, records=reader.read_data()
             )
+
+            upload_metrics_after = self._snapshot_system_metrics()
+            upload_stats["system_metrics"] = {
+                "before": upload_metrics_before,
+                "after": upload_metrics_after,
+            }
 
             if not DETAILED_RESULTS:
                 # Remove verbose stats from upload results
@@ -141,9 +191,15 @@ class BaseClient:
                         continue
 
                 search_params = {**searcher.search_params}
+                search_metrics_before = self._snapshot_system_metrics()
                 search_stats = searcher.search_all(
                     dataset.config.distance, reader.read_queries()
                 )
+                search_metrics_after = self._snapshot_system_metrics()
+                search_stats["system_metrics"] = {
+                    "before": search_metrics_before,
+                    "after": search_metrics_after,
+                }
                 if not DETAILED_RESULTS:
                     # Remove verbose stats from search results
                     search_stats.pop("latencies", None)

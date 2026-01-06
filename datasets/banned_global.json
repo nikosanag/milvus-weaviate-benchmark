@@ -1,0 +1,66 @@
+{
+    "name": "yandex-t2i-gt-100k",
+    "vector_size": 200,
+    "distance": "dot",
+    "type": "tar",
+    "path": "yandex-1B-200-angular/yandex_t2i_gt_100k",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/yandex_t2i_gt_100k.tgz"
+  },
+{
+    "name": "msmarco-sparse-100K",
+    "type": "sparse",
+    "path": "msmarco-sparse/100K",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/msmacro-sparse-100K.tar.gz"
+  },
+  {
+    "name": "msmarco-sparse-1M",
+    "type": "sparse",
+    "path": "msmarco-sparse/1M",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/msmacro-sparse-1M.tar.gz"
+  },
+  {
+    "name": "arxiv-titles-384-angular-filters",
+    "vector_size": 384,
+    "distance": "cosine",
+    "type": "tar",
+    "path": "arxiv-titles-384-angular/arxiv",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/arxiv.tar.gz",
+    "schema": {
+      "update_date_ts": "int",
+      "labels": "keyword",
+      "submitter": "keyword",
+      "id": "keyword"
+    }
+  },
+  {
+    "name": "cohere-wiki-50m-test-only",
+    "vector_size": 768,
+    "distance": "cosine",
+    "type": "tar",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/cohere-wiki-50m-test-only.tgz",
+    "path": "cohere-wiki-50m/cohere_wiki_50m"
+  },
+  {
+    "name": "cohere-wiki-100k-no-filters",
+    "vector_size": 768,
+    "distance": "cosine",
+    "type": "tar",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/cohere-wiki-100k-no-filters.tgz",
+    "path": "cohere-wiki-100k/cohere_wiki_100k_no_filters"
+  },
+  {
+    "name": "cohere-wiki-100k-no-filters-2",
+    "vector_size": 768,
+    "distance": "cosine",
+    "type": "tar",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/cohere-wiki-100k-no-filters-2.tgz",
+    "path": "cohere-wiki-100k/cohere_wiki_100k_no_filters_2"
+  },
+  {
+    "name": "laion-1m",
+    "vector_size": 512,
+    "distance": "cosine",
+    "type": "tar",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/laion-1m.tgz",
+    "path": "laion-1m/laion_1m"
+  }

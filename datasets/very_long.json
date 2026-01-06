@@ -1,0 +1,12 @@
+{
+    "name": "random-range-100-angular-filters",
+    "vector_size": 100,
+    "distance": "cosine",
+    "type": "tar",
+    "path": "random-range-100-angular/random_float_1m",
+    "link": "https://storage.googleapis.com/ann-filtered-benchmark/datasets/random_float_1m.tgz",
+    "schema": {
+      "a": "float",
+      "b": "float"
+    }
+  },
