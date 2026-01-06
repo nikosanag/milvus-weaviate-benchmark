@@ -18,6 +18,7 @@
 | glove-100-angular             | 1.2M    | 100  | ~3 GB     | ~4 GB     |
 | sift-128-euclidean            | 1M      | 128  | ~3 GB     | ~4 GB     |
 | random-match-keyword-100-*    | 1M      | 100  | ~3 GB     | ~4 GB     |
+| arxiv-titles-384-angular-*    | 2.2M    | 384  | ~4 GB     | ~6 GB     |
 
 ### Phase 2 — Medium (safe to run both DBs, ~8-10 GB peak)
 
@@ -65,6 +66,7 @@ Example (glove-100-angular, M=32):
    - `glove-100-angular`
    - `sift-128-euclidean` (L2)
    - `random-match-keyword-100-angular` (with/without filters)
+   - `arxiv-titles-384-angular` (with/without filters)
 3. HIGH-DIMENSION TESTS
    - `dbpedia-openai-100K-1536-angular`
    - `h-and-m-2048-angular` (no-filters / filters)
@@ -206,7 +208,7 @@ environment:
 - Per dataset, per engine, per config (7 configs):
   - Upload: 2–30 min (depending on size)
   - Search (8 params): ~5 min
-- All 10 datasets × 2 engines × 7 configs:
+- All 12 datasets × 2 engines × 7 configs:
   - Optimistic: 8–12 hours
   - Realistic: 16–24 hours
   - With heavy datasets: 24–36 hours
