@@ -31,6 +31,8 @@ class BaseUploader:
     ) -> dict:
         latencies = []
         records_per_batch = []
+        # completion_events: list of tuples (completion_time_since_start, batch_size, batch_latency)
+        completion_events = []
         start = time.perf_counter()
         parallel = self.upload_params.get("parallel", 1)
         batch_size = self.upload_params.get("batch_size", 64)
@@ -41,14 +43,16 @@ class BaseUploader:
                 self.host, distance, self.connection_params, self.upload_params
             )
             for batch in iter_batches(tqdm.tqdm(records), batch_size):
-                records_per_batch.append(len(batch))
-                latencies.append(self._upload_batch(batch))
+                bs = len(batch)
+                records_per_batch.append(bs)
+                batch_latency = self._upload_batch(batch)
+                latencies.append(batch_latency)
+                completion_events.append((time.perf_counter() - start, bs, batch_latency))
         else:
             ctx = get_context(self.get_mp_start_method())
 
             def _batched_records():
                 for batch in iter_batches(tqdm.tqdm(records), batch_size):
-                    records_per_batch.append(len(batch))
                     yield batch
 
             with ctx.Pool(
@@ -61,37 +65,51 @@ class BaseUploader:
                     self.upload_params,
                 ),
             ) as pool:
-                latencies = list(
-                    pool.imap(
-                        self.__class__._upload_batch,
-                        _batched_records(),
-                    )
-                )
+                # Submit tasks and record completion times in callbacks in the parent process.
+                async_jobs = []
+
+                def make_cb(bs):
+                    def _cb(batch_latency):
+                        # Record wall-clock completion time and the batch latency reported by worker
+                        completion_events.append((time.perf_counter() - start, bs, batch_latency))
+                    return _cb
+
+                for batch in _batched_records():
+                    bs = len(batch)
+                    records_per_batch.append(bs)
+                    job = pool.apply_async(self.__class__._upload_batch, args=(batch,), callback=make_cb(bs))
+                    async_jobs.append(job)
+
+                # Wait for all jobs to finish
+                for j in async_jobs:
+                    j.wait()
+
             # Initialize client in parent process for post-upload operations
             self.init_client(
                 self.host, distance, self.connection_params, self.upload_params
             )
 
+            # Extract latencies in completion order
+            latencies = [e[2] for e in completion_events]
+
         upload_time = time.perf_counter() - start
 
         total_records = sum(records_per_batch)
         progress_times = {}
-        if total_records > 0:
+        if total_records > 0 and completion_events:
             # Fractions: 10%, 20%, ..., 90%
             fractions = [i / 10.0 for i in range(1, 10)]
             thresholds = {f: total_records * f for f in fractions}
             remaining = set(fractions)
+            # Ensure completion events are ordered by actual wall-clock completion
+            completion_events.sort(key=lambda x: x[0])
             processed = 0
-            elapsed_for_fraction = 0.0
-            for batch_size_count, batch_latency in zip(records_per_batch, latencies):
-                processed += batch_size_count
-                elapsed_for_fraction += batch_latency
-
-                for fraction in sorted(remaining):
+            for completion_time, bs, _batch_latency in completion_events:
+                processed += bs
+                for fraction in sorted(list(remaining)):
                     if processed >= thresholds[fraction]:
-                        progress_times[fraction] = elapsed_for_fraction
+                        progress_times[fraction] = completion_time
                         remaining.remove(fraction)
-
                 if not remaining:
                     break
 
